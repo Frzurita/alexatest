@@ -15,4 +15,13 @@ router.get('/api/lights', function (req, res, next) {
     console.log('Hello world');
 });
 
+router.post('/api/alexa', function (req, res, next) {
+    console.log("I'm a post function");
+    console.log(req.body);
+});
+
+router.get('/api/alexa', function (req, res, next) {
+    console.log("I'm a get function");
+});
+
 module.exports = router;
