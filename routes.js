@@ -22,6 +22,7 @@ router.post('/api/alexa', function (req, res, next) {
 
 router.get('/api/alexa', function (req, res, next) {
     console.log("I'm a get function");
+    res.json({msg: "I'm a get method"});
 });
 
 module.exports = router;
