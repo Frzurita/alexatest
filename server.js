@@ -1,10 +1,11 @@
 var express = require('express');
 var app = express();
 var router = require('./app');
-var port = process.env.PORT || 8000;
+
+app.set('port', process.env.PORT || 8000);
 
 app.use(router);
 
-app.listen(port,'0.0.0.0');
+app.listen(app.get('port'),'0.0.0.0');
 
-console.log('servidor funcionando por el puerto' + port);
+console.log('servidor funcionando por el puerto' + app.get('port'));

@@ -4,7 +4,7 @@
   "description": "Plataforma de gestión de facturas para clientes del vidrio",
   "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "node server.js",
     "stop": "forever stopall",
     "prebuild": "npm install",
     "build": "gulp build",

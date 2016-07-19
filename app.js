@@ -3,7 +3,7 @@ var logger = require('morgan');
 var path = require('path');
 var bodyParser = require('body-parser');
 var morgan       = require('morgan');
-var mongoose = require('mongoose');
+/*var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/phillipshue');
 
@@ -12,10 +12,10 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("We're connected");
 });
+index coje todas las rutas y en la ultima linea se usa index para entrar en la app
+var models = require('./models.js');*/
+var routes = require('./routes.js');
 
-
-var routes = require('./routes.js');         /*index coje todas las rutas y en la ultima linea se usa index para entrar en la app*/
-var models = require('./models.js');
 
 var app = express();
 
@@ -30,11 +30,11 @@ app.use(bodyParser.json());             /*trabajamos en formato .json*/
 app.use(bodyParser.urlencoded({ extended: false }));      /*falso que trabajaremos con rutas encriptadas*/
 app.use(express.static('frontend'));       /*todos los archivos estaticos (assets) se ponen en public*/
 
-app.use(function(req, res, next){
+/*app.use(function(req, res, next){
   req.models = models;
   req.gw_ip= 'http://192.168.1.57:1234/';
   next();
-})
+})*/
 app.use(routes);
 
 
