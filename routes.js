@@ -22,7 +22,7 @@ alexa.intent('MySensorIsIntent',
 );
 
 
-alexa.intent('',
+alexa.intent('MyLightIsIntent',
     {
         "utterances":[ "say the number {1-100|number}" ]
     },
