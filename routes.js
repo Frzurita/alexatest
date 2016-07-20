@@ -17,7 +17,14 @@ alexa.intent('MySensorIsIntent',
     },
     function(request,response) {
         var number = request.slot('name');
-        response.say("You asked for the number "+ number);
+        response.say("You asked for the number ");
+    }
+);
+
+alexa.intent('LaunchRequest',
+    {},
+    function(request,response) {
+        response.say("Hello, welcome to the hell");
     }
 );
 
