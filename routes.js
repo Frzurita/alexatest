@@ -29,7 +29,7 @@ router.get('/api/lights', function (req, res, next) {
 });
 
 router.post('/api/alexa',function(req,res) {
-    app.request(req.body)        // connect express to alexa-app
+    alexa.request(req.body)        // connect express to alexa-app
         .then(function(response) { // alexa-app returns a promise with the response
             res.json(response);      // stream it to express' output
         });
