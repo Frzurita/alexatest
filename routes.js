@@ -7,6 +7,10 @@ var qs = require('querystring');
 var alexa_app = require('alexa-app');
 var alexa = new alexa_app.app('test');
 
+alexa.launch(function(request,response) {
+    response.say("Hello, welcome to the hell");
+});
+
 alexa.intent('MySensorIsIntent',
     {
         "slots":{
@@ -18,13 +22,6 @@ alexa.intent('MySensorIsIntent',
     function(request,response) {
         var number = request.slot('name');
         response.say("You asked for the number ");
-    }
-);
-
-alexa.intent('LaunchRequest',
-    {},
-    function(request,response) {
-        response.say("Hello, welcome to the hell");
     }
 );
 
