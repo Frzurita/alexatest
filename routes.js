@@ -8,7 +8,7 @@ var alexa_app = require('alexa-app');
 var alexa = new alexa_app.app('test');
 
 alexa.launch(function(request,response) {
-    response.say("Hello, welcome to the hell");
+    response.say("Hello, welcome to the hell").shouldEndSession(false);
 });
 
 alexa.intent('MySensorIsIntent',
