@@ -21,6 +21,7 @@ alexa.intent('MySensorIsIntent',
         ,"utterances":[ "say the number {1-100|number}" ]
     },
     function(request,response) {
+        console.log(request);
         var number = request.slot('name');
         response.say("You asked for the number ");
     }
