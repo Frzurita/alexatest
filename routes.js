@@ -5,7 +5,7 @@ var _ = require('underscore');
 var request = require('request');
 var qs = require('querystring');
 var alexa_app = require('alexa-app');
-var alexa = new alexa_app.app('SmartHome');
+var alexa = new alexa_app.app('test');
 
 alexa.intent('MySensorIsIntent',
     {
