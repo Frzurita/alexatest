@@ -6,6 +6,7 @@ var request = require('request');
 var qs = require('querystring');
 var alexa_app = require('alexa-app');
 var alexa = new alexa_app.app('test');
+var slots = request('slots.json');
 
 alexa.launch(function(request,response) {
     response.say("Hello, welcome to the hell").shouldEndSession(false)
@@ -35,9 +36,8 @@ alexa.intent('HappyBirthdayIntent',
         }
     },
     function(request,response) {
-        console.log(hola);
         console.log('Estoy en slot');
-        var name = request.slot("birthName");
+        var name = request.slot("value");
         response.say("Happy birth day " + name +" I wish you a very happy year");
     }
 );
@@ -63,7 +63,6 @@ router.get('/api/lights', function (req, res, next) {
 });
 
 router.post('/api/alexa',function(req,res) {
-    var hola = "pepe";
     console.log(JSON.stringify(req.body));
     alexa.request(req.body)        // connect express to alexa-app
         .then(function(response) { // alexa-app returns a promise with the response
