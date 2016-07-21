@@ -37,7 +37,8 @@ alexa.intent('HappyBirthdayIntent',
     },
     function(request,response) {
         console.log('Estoy en slot');
-        var name = request.slot("value");
+        var name = request.slot("birthName");
+        console.log(name);
         response.say("Happy birth day " + name +" I wish you a very happy year");
     }
 );
