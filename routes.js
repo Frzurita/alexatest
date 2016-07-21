@@ -40,7 +40,7 @@ alexa.intent('HappyBirthdayIntent',
         var name = request.slot("birthName");
         var age = request.slot("age");
         console.log(name);
-        response.say("Hello " + name + "I'm Alexa, I wish you a great day " + name +" I wish you a very happy year in your "+age+ " years living");
+        response.say("Hello " + name + ". I'm Alexa, I wish you a great day " + name +" I wish you a very happy year in your "+age+ " years living");
     }
 );
 
