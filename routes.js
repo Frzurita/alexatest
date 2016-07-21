@@ -6,7 +6,6 @@ var request = require('request');
 var qs = require('querystring');
 var alexa_app = require('alexa-app');
 var alexa = new alexa_app.app('test');
-var slots = request('slots.json');
 
 alexa.launch(function(request,response) {
     response.say("Hello, welcome to the hell").shouldEndSession(false)
@@ -32,7 +31,8 @@ alexa.intent('MySensorIsIntent',
 alexa.intent('HappyBirthdayIntent',
     {
         "slots":{
-            "name":"birthName"
+            "name":"NAME",
+            "value":"VALUE"
         }
     },
     function(request,response) {
