@@ -35,6 +35,7 @@ alexa.intent('HappyBirthdayIntent',
         }
     },
     function(request,response) {
+        console.log(hola);
         console.log('Estoy en slot');
         var name = request.slot("birthName");
         response.say("Happy birth day " + name +" I wish you a very happy year");
@@ -62,6 +63,7 @@ router.get('/api/lights', function (req, res, next) {
 });
 
 router.post('/api/alexa',function(req,res) {
+    var hola = "pepe";
     console.log(JSON.stringify(req.body));
     alexa.request(req.body)        // connect express to alexa-app
         .then(function(response) { // alexa-app returns a promise with the response
