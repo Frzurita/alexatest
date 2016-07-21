@@ -14,16 +14,30 @@ alexa.launch(function(request,response) {
 
 alexa.intent('MySensorIsIntent',
     {
-        "slots":{
+        "slots":[{
             "name":"DeviceSensor",
             "type":"LIST_OF_SENSOR"
-        }
-        ,"utterances":[ "say the number {1-100|number}" ]
+        }]
     },
     function(request,response) {
-        console.log(request.slot());
-        var number = request.slot('name');
+        console.log('Estoy en slot');
+        var number = request.slot();
         response.say("You asked for the number ");
+    }
+);
+
+
+
+alexa.intent('HappyBirthdayIntent',
+    {
+        "slots":{
+            "name":"birthName"
+        }
+    },
+    function(request,response) {
+        console.log('Estoy en slot');
+        var name = request.slot("name");
+        response.say("Happy birth day " + name +" I wish you a very happy year");
     }
 );
 
