@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var _ = require('underscore');
-var request = require('request');
+var requested = require('request');
 var qs = require('querystring');
 var alexa_app = require('alexa-app');
 var alexa = new alexa_app.app('test');
@@ -41,6 +41,42 @@ alexa.intent('HappyBirthdayIntent',
         var age = request.slot("age");
         console.log(name);
         response.say("Hello " + name + ". I'm Alexa, I wish you a very happy birthday. "+ age +" is a great age to do awesome stuff.");
+    }
+);
+
+alexa.intent('turnTheLightOnIntent',
+    {
+        "slots":{
+            "name":"NAME",
+            "value":"VALUE"
+        }
+    },
+    function(request,response) {
+        var state = request.slot("state");
+        var name = request.slot("name");
+        var send_light = {};
+
+        request.lights.map(function(light){
+            if(light.name = name){
+                send_light = light;
+                if(state == "on") {
+                    send_light.on = true;
+                }
+                else if(state == "off"){
+                    send_light.on = false;
+                }
+            }
+        });
+        requested
+            .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(send_light), json: true},function(err, response, body) {
+                if(response.statusCode == 200){
+                    res.json(response.body)
+                }// 200
+                else{
+                    res.json({msg:'me conecto pero sin fallo'});
+                }
+                console.log(response.headers['content-type']); // 'image/png'
+            });
     }
 );
 
