@@ -3,6 +3,7 @@ var logger = require('morgan');
 var path = require('path');
 var bodyParser = require('body-parser');
 var morgan       = require('morgan');
+var requested = require('request');
 /*var mongoose = require('mongoose');
 
 mongoose.connect('mongodb://localhost/phillipshue');
@@ -37,7 +38,7 @@ app.use(express.static('frontend'));       /*todos los archivos estaticos (asset
 })*/
 app.use(function (req, res, next) {
     req.gw_ip= 'http://95.121.168.104:1234/';
-    request
+    requested
         .get({url: req.gw_ip + 'lights', qs: '', json: true},function(err, response, body) {
             if(response.statusCode == 200){
                 req.ligths = response.body;
