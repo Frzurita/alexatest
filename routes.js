@@ -52,7 +52,7 @@ alexa.intent('turnTheLightOnIntent',
         }
     },
     function(request,response) {
-        var state = request.slot("state");
+        var state = request.slot("light_state");
         var name = request.slot("name");
         var send_light = {};
 

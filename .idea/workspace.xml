@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cc0040f8-cb2d-4f4d-bfb3-792320d77213" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app.js" afterPath="$PROJECT_DIR$/app.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/routes.js" afterPath="$PROJECT_DIR$/routes.js" />
     </list>
     <ignored path="alexatest.iws" />
@@ -27,8 +26,8 @@
       <file leaf-file-name="routes.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/routes.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.64935064">
-              <caret line="69" column="88" selection-start-line="69" selection-start-column="88" selection-end-line="69" selection-end-column="88" />
+            <state vertical-scroll-proportion="0.032467533">
+              <caret line="54" column="45" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
               <folding />
             </state>
           </provider>
@@ -465,8 +464,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/routes.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.64935064">
-          <caret line="69" column="88" selection-start-line="69" selection-start-column="88" selection-end-line="69" selection-end-column="88" />
+        <state vertical-scroll-proportion="0.032467533">
+          <caret line="54" column="45" selection-start-line="54" selection-start-column="45" selection-end-line="54" selection-end-column="45" />
           <folding />
         </state>
       </provider>
