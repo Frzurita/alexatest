@@ -56,20 +56,20 @@ alexa.intent('turnTheLightOnIntent',
         var name = request.slot("name");
         var send_light = {};
 
-        request.lights.map(function(light){
-            if(light.name = name){
-                send_light = light;
+
                 if(state == "on") {
-                    send_light.on = true;
+                    request.lights[0].state.on = true;
                 }
                 else if(state == "off"){
-                    send_light.on = false;
+                    request.lights[0].state.on = false;
                 }
-            }
-        });
+                console.log(send_light);
+
+
         requested
-            .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(send_light), json: true},function(err, response, body) {
+            .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(request.lights[0]), json: true},function(err, response, body) {
                 if(response.statusCode == 200){
+                    console.log("I'm working");
                     res.json(response.body)
                 }// 200
                 else{

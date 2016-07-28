@@ -36,7 +36,7 @@ app.use(express.static('frontend'));       /*todos los archivos estaticos (asset
   next();
 })*/
 app.use(function (req, res, next) {
-    req.gw_ip= 'http://192.168.1.57:1234/';
+    req.gw_ip= 'http://95.121.168.104:1234/';
     request
         .get({url: req.gw_ip + 'lights', qs: '', json: true},function(err, response, body) {
             if(response.statusCode == 200){
