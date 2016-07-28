@@ -38,16 +38,6 @@ app.use(express.static('frontend'));       /*todos los archivos estaticos (asset
 })*/
 app.use(function (req, res, next) {
     req.gw_ip= 'http://95.121.168.104:1234/';
-    requested
-        .get({url: req.gw_ip + 'lights', qs: '', json: true},function(err, response, body) {
-            if(response.statusCode == 200){
-                req.ligths = response.body;
-            }// 200
-            else{
-                res.json({msg:'me conecto pero sin fallo'});
-            }// 'image/png'
-            next();
-        });
 });
 
 app.use(routes);

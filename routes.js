@@ -56,26 +56,35 @@ alexa.intent('turnTheLightOnIntent',
         var name = request.slot("light_name");
         var send_light = {};
 
-
-                if(state == "on") {
-                    request.lights[0].state.on = true;
-                }
-                else if(state == "off"){
-                    request.lights[0].state.on = false;
-                }
-                console.log(send_light);
-
-
         requested
-            .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(request.lights[0]), json: true},function(err, response, body) {
+            .get({url: req.gw_ip + 'lights', qs: '', json: true},function(err, response, body) {
+                response.body = lights;
                 if(response.statusCode == 200){
-                    console.log("I'm working");
-                    res.json(response.body)
+                    if(state == "on") {
+                        lights[0].state.on = true;
+                    }
+                    else if(state == "off"){
+                        lights[0].state.on = false;
+                    }
+                    console.log(send_light);
+
+
+                    requested
+                        .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(lights[0]), json: true},function(err, response, body) {
+                            if(response.statusCode == 200){
+                                console.log("I'm working");
+                                res.json(response.body)
+                            }// 200
+                            else{
+                                res.json({msg:'me conecto pero sin fallo'});
+                            }
+                            console.log(response.headers['content-type']); // 'image/png'
+                        });
                 }// 200
                 else{
                     res.json({msg:'me conecto pero sin fallo'});
-                }
-                console.log(response.headers['content-type']); // 'image/png'
+                }// 'image/png'
+
             });
     }
 );
