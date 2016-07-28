@@ -57,7 +57,7 @@ alexa.intent('turnTheLightOnIntent',
         var send_light = {};
 
         requested
-            .get({url: req.gw_ip + 'lights', qs: '', json: true},function(err, response, body) {
+            .get({url: req.gw_ip + 'lights', qs: '', json: true},function(err, res, body) {
                 response.body = lights;
                 if(response.statusCode == 200){
                     if(state == "on") {
@@ -70,10 +70,10 @@ alexa.intent('turnTheLightOnIntent',
 
 
                     requested
-                        .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(lights[0]), json: true},function(err, response, body) {
+                        .post({url: req.gw_ip + 'updateLight', form: JSON.stringify(lights[0]), json: true},function(err, res, body) {
                             if(response.statusCode == 200){
                                 console.log("I'm working");
-                                res.json(response.body)
+                                response.say("The light  "+ name + "is " + state);
                             }// 200
                             else{
                                 res.json({msg:'me conecto pero sin fallo'});
