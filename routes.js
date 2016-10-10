@@ -66,7 +66,6 @@ alexa.intent('turnTheLightOnIntent',
                     else if(state == "off"){
                         lights[0].state.on = false;
                     }
-                    console.log(send_light);
 
 
                     requested
