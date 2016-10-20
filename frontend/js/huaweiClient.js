@@ -2,5 +2,4 @@
  * Controlador de la platforma de Huawei 
  */
 
-
-// test
+require(na-app-demo);
