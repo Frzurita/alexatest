@@ -17,6 +17,16 @@ index coje todas las rutas y en la ultima linea se usa index para entrar en la a
 var models = require('./models.js');*/
 var routes = require('./routes.js');
 
+//var HuaweiSmarthome = require('node_modules/na-app-demo/public/sdk/huaweiSmartHome.min.js');
+//var client = require('node_modules/na-app-demo/views/clientHuawei.js');
+
+/*
+var HuaweiSmarthome = require('node_modules/na-app-demo/public/sdk/huaweiSmartHome.min.js');
+app.use(HuaweiSmarthome);
+*/
+
+var prueba = require('frontend/js/prueba.js)();
+
 
 var app = express();
 
@@ -40,7 +50,11 @@ app.use(function (req, res, next) {
     req.gw_ip= 'http://95.121.168.104:1234/';
 });
 
+console.log(sum(2+3));
+console.log("why!");
+app.use('prueba');
+
 app.use(routes);
 
-
 module.exports = app;
+
