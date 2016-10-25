@@ -1,12 +1,29 @@
-module.export {
-	init: init(),
-	turnOn: turnOn(),
-	turnOff: turnOff()
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Huawei Smart Home</title>
+</head>
+<body>
 
+<div>
+    Username:<input id="username" value="0034600000000" type="text">
+    Password:<input id="password" value="CCpruebas_1" type="password">
+    <input id="init" type="submit" value="Sign In">
+</div>
+    <button id="socket-on-btn">ON</button>
+    <button id="socket-off-btn">OFF</button>
+
+</body>
+
+<script src='/bower_components/d3/d3.min.js'></script>
+<script src='/bower_components/eventEmitter/EventEmitter.js'></script>
+<script src="/bower_components/notification-js/build/notification.min.js"></script>
+<script src="/sdk/huaweiSmarthome.min.js"></script>
+<script src="/javascripts/demoHomeViz.js"></script>
+<script>
+    var socket = null;
 	function init(){
-		var socket = null;
-		var client = HuaweiSmarthome.Client("IFTTT-TEF",
+		var client = HuaweiSmarthome.Client("Huawei Smarthome Webapp",
 		{
 			INFO_LOG_ON: true,
 			SHOW_HEARTBEAT: false,
@@ -77,11 +94,18 @@ module.export {
         client.signInWithCredentials(userCredentials);
 	}
 
+    document.getElementById("init").onclick = function () {
+	  init();
+    }
 
-	function turnOn(){
+    document.getElementById("socket-on-btn").onclick = function () {
 		socket.buttons.SocketON.pressAndRelease();
     }
 
-	function turnOff(){
+    document.getElementById("socket-off-btn").onclick = function () {
 		socket.buttons.SocketOFF.pressAndRelease();
     }
+</script>
+
+
+</html>
