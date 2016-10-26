@@ -1,8 +1,8 @@
 module.export {
 	init: init(),
 	turnOn: turnOn(),
-	turnOff: turnOff()
-}
+	turnOff: turnOff();
+};
 
 	function init(){
 		var socket = null;

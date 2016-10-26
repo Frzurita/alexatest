@@ -142,6 +142,39 @@
 
             </md-content>
           </md-tab>
+		  <md-tab label="IFTTT">
+            <md-content class="md-padding">
+              <md-subheader class="md-no-sticky">Eventos de IFTTT</md-subheader>
+			  <md-list-item>
+			    <span>Location</span>
+			    <md-checkbox class="md-secondary"></md-checkbox>
+			  </md-list-item>
+			  <md-list-item>
+			    <span>Toggle</span>
+			    <md-checkbox class="md-secondary"></md-checkbox>
+			  </md-list-item>
+              <md-subheader class="md-no-sticky">Acciones a Telefonica</md-subheader>
+              <md-list-item>
+                <span class="md-body-1">Toogle Smartplug: </span>
+				<script src="dependencies/bower_components/eventEmitter/EventEmitter.js"></script>
+				<script src="dependencies/bower_components/notification-js/build/notification.min.js"></script>
+				<script src="dependencies/bower_components/d3/d3.min.js"></script>
+				<script src="dependencies/huaweiSmarthome.min.js"></script>
+                <md-button class="md-raised md-primary test-button" ng-click="init()">
+                  init
+                </md-button>
+                <md-button class="md-raised md-primary test-button" ng-click="turnOn()">
+                  ON
+                </md-button>
+                <md-button class="md-raised md-primary test-button" ng-click="turnOff()">
+                  OFF
+                </md-button>
+              </md-list-item>
+			  <md-divider>
+			  </md-divider>
+             </md-content>
+          </md-tab>
+
         </md-tabs>
       </md-content>
     </div>
