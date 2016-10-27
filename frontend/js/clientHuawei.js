@@ -1,3 +1,5 @@
+// Este fichero no se esta utilizando.
+// Se ejecuta directamente el codigo de /frontend/dist/app.js
 module.export {
 	init: init(),
 	turnOn: turnOn(),
@@ -34,7 +36,8 @@ module.export {
 			}
             // Socket
             if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase()) {
-				console.log("Socket: " + deviceDetails);
+				console.log("Weeee!");
+				console.log("Socket: " + deviceDetails.stringify());
 				deviceCollection[deviceDetails.deviceId].addButton('SocketON', {  // commandObjectDefinition
 					description: 'This is the button to turn on the socket.',
 				    deviceId: deviceDetails.deviceId,
