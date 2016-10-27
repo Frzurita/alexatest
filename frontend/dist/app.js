@@ -91,11 +91,14 @@ var _ = require('underscore');
 module.exports = function (app) {
     app.controller('mainPage', function ($scope,$http) {
         $scope.selectedIndex = 0;
+		$scope.client=null;
 
         $scope.init= function () {
 			console.log("init");
 		$scope.socket = null;
-		var client = HuaweiSmarthome.Client("IFTTT-TEF",
+		$scope.socketStatus = null;
+		$scope.toggling = 0;
+		client = HuaweiSmarthome.Client("IFTTT-TEF",
 		{
 			INFO_LOG_ON: true,
 			SHOW_HEARTBEAT: false,
@@ -120,10 +123,14 @@ module.exports = function (app) {
             
 			if ("GATEWAY" !== deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && !deviceCollection[deviceDetails.deviceId]) {
 				deviceCollection[deviceDetails.deviceId] = client.Device(deviceDetails.deviceInfo.nodeId).fit(deviceDetails);
+				socketStatus=null;
+				toggling=0;
 			}
             // Socket
-            if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase()) {
+            if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && socketStatus==null) {
 				console.log("Socket: " + deviceDetails);
+				socketStatus=deviceDetails.services[0].data.status;
+				console.log("socketStatus: " + socketStatus);
 				deviceCollection[deviceDetails.deviceId].addButton('SocketON', {  // commandObjectDefinition
 					description: 'This is the button to turn on the socket.',
 				    deviceId: deviceDetails.deviceId,
@@ -162,19 +169,38 @@ module.exports = function (app) {
 				socket = deviceCollection[deviceDetails.deviceId];
 
             }
+            if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && socketStatus!=null && toggling==1) {
+				console.log("Socket: " + deviceDetails);
+				socketStatus=deviceDetails.services[0].data.status;
+				console.log("socketStatus: " + socketStatus);
+				console.log("toggling...");
+				if(socketStatus=="OFF"){
+					socket.buttons.SocketON.pressAndRelease();
+				}
+				if(socketStatus=="ON"){
+					socket.buttons.SocketOFF.pressAndRelease();
+				}
+				toggling=0;
+			  }
+
         })
         client.signInWithCredentials(userCredentials);
 	}
 
-        $scope.turnOn= function () {
-
+    $scope.turnOn= function () {
 		socket.buttons.SocketON.pressAndRelease();
     }
 
-        $scope.turnOff= function () {
+    $scope.turnOff= function () {
 		socket.buttons.SocketOFF.pressAndRelease();
     }
 		
+    $scope.toggle= function () {
+		console.log("Retrieving socket info from server");
+		toggling=1;
+		client.getDeviceDetails(socket.deviceId);
+		console.log("Retrieved");
+    }
 
         $scope.contactWithGW = function () {
             $scope.pepe = {};
