@@ -95,6 +95,7 @@ module.exports = function (app) {
 
         $scope.init= function () {
 			console.log("init");
+		 document.getElementById("userOut").innerHTML = "Estado: conectando a Huawei.";
 		$scope.socket = null;
 		$scope.socketStatus = null;
 		$scope.toggling = 0;
@@ -122,6 +123,7 @@ module.exports = function (app) {
 			var deviceDetails = JSON.parse(response);
             
 			if ("GATEWAY" !== deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && !deviceCollection[deviceDetails.deviceId]) {
+				document.getElementById("userOut").innerHTML = "Estado: Conectado.";
 				deviceCollection[deviceDetails.deviceId] = client.Device(deviceDetails.deviceInfo.nodeId).fit(deviceDetails);
 				socketStatus=null;
 				toggling=0;
@@ -129,6 +131,7 @@ module.exports = function (app) {
             // Socket
             if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && socketStatus==null) {
 				console.log("Socket: " + deviceDetails);
+				document.getElementById("userOut").innerHTML = "Estado: Smartplug detectado.";
 				socketStatus=deviceDetails.services[0].data.status;
 				console.log("socketStatus: " + socketStatus);
 				deviceCollection[deviceDetails.deviceId].addButton('SocketON', {  // commandObjectDefinition
@@ -175,9 +178,11 @@ module.exports = function (app) {
 				console.log("socketStatus: " + socketStatus);
 				console.log("toggling...");
 				if(socketStatus=="OFF"){
+					document.getElementById("userOut").innerHTML = "Estado: smartplug encendido.";
 					socket.buttons.SocketON.pressAndRelease();
 				}
 				if(socketStatus=="ON"){
+					document.getElementById("userOut").innerHTML = "Estado: smartplug apagado.";
 					socket.buttons.SocketOFF.pressAndRelease();
 				}
 				toggling=0;
