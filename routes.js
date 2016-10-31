@@ -6,6 +6,7 @@ var requested = require('request');
 var qs = require('querystring');
 var alexa_app = require('alexa-app');
 var alexa = new alexa_app.app('test');
+var ifttt = require('./lib/ifttp');
 
 alexa.launch(function(request,response) {
     response.say("Hello, welcome to the hell").shouldEndSession(false)
@@ -26,6 +27,7 @@ alexa.intent('MySensorIsIntent',
     }
 );
 
+ifttt();
 
 
 alexa.intent('HappyBirthdayIntent',
