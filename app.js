@@ -12,7 +12,7 @@ var app = express();
 // view engine setup
 app.set('views', 'frontend');              /*"las vistas (doc html) estan en la carpeta public (carpeta raiz)"*/
 
-app.set('view engine', 'ejs');           /*app.see(que quieres setear, donde lo vas a setear)*/
+app.set('view engine', 'ejs');           /*app.set(que quieres setear, donde lo vas a setear)*/
 
 app.use(morgan('dev'));                 /*vamos a usar morgan y logger cuando estemos en modo developer*/
 app.use(logger('dev'));                 /*morgan y logger nos recopilan datos en console*/

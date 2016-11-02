@@ -1,7 +1,133 @@
 var _ = require('underscore');
 module.exports = function (app) {
-    app.controller('mainPage', function ($scope,$http) {
+    app.controller('mainPage', function ($scope,$http,$interval) {
         $scope.selectedIndex = 0;
+        $scope.client=null;
+        var interval = $interval(setSmartplug(),1000);
+        $scope.init= function () {
+            console.log("init");
+            $scope.socket = null;
+            $scope.socketStatus = null;
+            $scope.toggling = 0;
+            client = HuaweiSmarthome.Client("IFTTT-TEF",
+                {
+                    INFO_LOG_ON: true,
+                    SHOW_HEARTBEAT: false,
+                    NA_SERVER_HOST: '62.14.234.69',
+                    NA_SERVER_PORT: '8443',
+                    IS_SERVER_HOST: '',
+                    IS_SERVER_PORT: ''
+                });
+
+            var userCredentials = {
+                key: "0034600000000",
+                secret: "CCpruebas_1"
+            };
+
+            var deviceCollection = {};
+
+            // Manejador del evento de forma que reconozca el SmartPlug.
+            // Reconoce primero el gateway y de ahi recoge los dispositivos
+            // utilizados por este.
+            client.on(client.event.deviceReadyEvent, function (response) {
+                var deviceDetails = JSON.parse(response);
+
+                if ("GATEWAY" !== deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && !deviceCollection[deviceDetails.deviceId]) {
+                    document.getElementById("userOut").innerHTML = "Estado: Conectado.";
+                    deviceCollection[deviceDetails.deviceId] = client.Device(deviceDetails.deviceInfo.nodeId).fit(deviceDetails);
+                    $scope.socketStatus=null;
+                    toggling=0;
+                }
+                // Socket
+                if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && $scope.socketStatus==null) {
+                    console.log("Socket: " + deviceDetails);
+                    document.getElementById("userOut").innerHTML = "Estado: Smartplug detectado.";
+                    $scope.socketStatus=deviceDetails.services[0].data.status;
+                    console.log("socketStatus: " + $scope.socketStatus);
+                    deviceCollection[deviceDetails.deviceId].addButton('SocketON', {  // commandObjectDefinition
+                            description: 'This is the button to turn on the socket.',
+                            deviceId: deviceDetails.deviceId,
+                            serviceId: "Switch",
+                            header: {
+                                from: "/users/" + userCredentials.key,
+                                method: "SWITCH",
+                                mode: "NOACK"
+                            },
+                            body: {
+                                status: "ON"
+                            }
+                        }, [function () {
+                            this.do(this.buttons.SocketON.command, client.access_token);
+                        }]
+                    );
+
+                    deviceCollection[deviceDetails.deviceId].addButton('SocketOFF', {  // commandObjectDefinition
+                            description: 'This is the button to turn off the socket.',
+                            deviceId: deviceDetails.deviceId,
+                            serviceId: "Switch",
+                            header: {
+                                from: "/users/" + userCredentials.key,
+                                method: "SWITCH",
+                                mode: "NOACK"
+                            },
+                            body: {
+                                status: "OFF"
+                            }
+                        }, [function () {
+                            this.do(this.buttons.SocketOFF.command, client.access_token);
+                        }]
+                    );
+
+
+                    $scope.socket = deviceCollection[deviceDetails.deviceId];
+
+                }
+                if ("Socket".toLocaleUpperCase() === deviceDetails.deviceInfo.deviceType.toLocaleUpperCase() && $scope.socketStatus!=null && toggling==1) {
+                    console.log("Socket: " + deviceDetails);
+                    $scope.socketStatus=deviceDetails.services[0].data.status;
+                    console.log("socketStatus: " + $scope.socketStatus);
+                    console.log("toggling...");
+                    if($scope.socketStatus=="OFF"){
+                        document.getElementById("userOut").innerHTML = "Estado: smartplug encendido.";
+                        $scope.socket.buttons.SocketON.pressAndRelease();
+                    }
+                    if($scope.socketStatus=="ON"){
+                        document.getElementById("userOut").innerHTML = "Estado: smartplug apagado.";
+                        $scope.socket.buttons.SocketOFF.pressAndRelease();
+                    }
+                    toggling=0;
+                }
+
+            })
+            client.signInWithCredentials(userCredentials);
+        }
+
+        $scope.init();
+
+        $scope.turnOn= function () {
+            $scope.socket.buttons.SocketON.pressAndRelease();
+        }
+
+        $scope.turnOff= function () {
+            $scope.socket.buttons.SocketOFF.pressAndRelease();
+        }
+
+        $scope.toggle= function () {
+            console.log("Retrieving socket info from server");
+            toggling=1;
+            client.getDeviceDetails($scope.socket.deviceId);
+            console.log("Retrieved");
+        }
+
+        // var stopTime = $interval(setSmartplug, 1000);
+        function setSmartplug() {
+            console.log('Im ready to send the request');
+            $http.get('/api/smartplug/status')
+                .success(function (data) {
+                    console.log(data);
+                })
+        }
+
         $scope.contactWithGW = function () {
             $scope.pepe = {};
             console.log('hey!');
@@ -47,18 +173,18 @@ module.exports = function (app) {
             light.g = parseInt(result[2], 16);
             light.b = parseInt(result[3], 16);
             console.log(light);
-        }
+        };
 
         $scope.updateLight = function (light) {
             $http.post('/api/update/light', light)
-            .success(function (data) {
-                console.log('all is right');
-                console.log(data);
-            })
-            .error(function (error) {
-                console.log(error);
-            })
-        }
+                .success(function (data) {
+                    console.log('all is right');
+                    console.log(data);
+                })
+                .error(function (error) {
+                    console.log(error);
+                })
+        };
 
         $scope.next = function (){
             console.log('pepe');
