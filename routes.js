@@ -112,14 +112,16 @@ router.get('/api/lights', function (req, res, next) {
     res.json({status:'light_parsed'});
 });
 
-router.get('/location/out', function (req, res) {
+router.get('/location/out', function (req, res, next) {
+    console.log("Out");
     var myJson = {light: false,state:true};
     fs.writeFile( "smartplugStatus.json", JSON.stringify( myJson ), "utf8", function () {
         res.json({status:'data_stored'});
     } );
 });
 
-router.get('/location/in', function (req, res) {
+router.get('/location/in', function (req, res, next) {
+    console.log("In");
     var myJson = {light: true,state:true};
     fs.writeFile( "smartplugStatus.json", JSON.stringify( myJson ), "utf8", function () {
         res.json({status:'data_stored'});
@@ -127,7 +129,13 @@ router.get('/location/in', function (req, res) {
 });
 
 router.get('/api/smartplug/status', function (req, res) {
+	console.log("here");
+smartplugStatus = fs.readFileSync("smartplugStatus.json");
+//var smartplugStatus = require('./smartplugStatus.json');
+smartplugStatus = JSON.parse(smartplugStatus);
+console.log("smartplugStatus: " + smartplugStatus);
     if(smartplugStatus.state == true){
+console.log("AQUI ESTA TRUE");
         var object_to_send = smartplugStatus;
         var object_to_write = {light: smartplugStatus.light, state:false};
         fs.writeFile( "smartplugStatus.json", JSON.stringify( object_to_write ), "utf8", function () {
@@ -135,6 +143,7 @@ router.get('/api/smartplug/status', function (req, res) {
         } );
     }
     else{
+console.log("false");
         res.status(200).json(smartplugStatus);
     }
 });
