@@ -22,6 +22,7 @@ app.use(express.static('frontend'));       /*todos los archivos estaticos (asset
 
 app.use(function (req, res, next) {
     req.gw_ip= 'http://95.121.168.104:1234/';
+    next()
 });
 
 app.use(routes);
