@@ -3,7 +3,6 @@ module.exports = function (app) {
     app.controller('mainPage', function ($scope,$http,$interval) {
         $scope.selectedIndex = 0;
         $scope.client=null;
-        var interval = $interval(setSmartplug(),1000);
         $scope.init= function () {
             console.log("init");
             $scope.socket = null;
@@ -110,23 +109,34 @@ module.exports = function (app) {
 
         $scope.turnOff= function () {
             $scope.socket.buttons.SocketOFF.pressAndRelease();
-        }
+        };
 
         $scope.toggle= function () {
             console.log("Retrieving socket info from server");
             toggling=1;
             client.getDeviceDetails($scope.socket.deviceId);
             console.log("Retrieved");
-        }
+        };
 
         // var stopTime = $interval(setSmartplug, 1000);
         function setSmartplug() {
             console.log('Im ready to send the request');
             $http.get('/api/smartplug/status')
                 .success(function (data) {
-                    console.log(data);
+                    if(data.state == true){
+                        if(data.light == true){
+                            //lo que tengas que hacer para encender smartplug aqui
+                            $scope.turnOn()
+                        }
+                        else{
+                            //lo que tengas que hacer para apagar smartplug aqui
+                            $scope.turnOff()
+                        }
+                    }
                 })
         }
+
+        var interval = $interval(setSmartplug,1000);
 
         $scope.contactWithGW = function () {
             $scope.pepe = {};
@@ -140,21 +150,21 @@ module.exports = function (app) {
                 })
         };
 
-        $http.get('/api/lights')
-            .success(function (data) {
-                console.log('print1');
-                console.log(data);
-                $scope.lights = data;
-                $scope.lights.map(function (light) {
-                    console.log('estoy aqui');
-                    light.hex = rgbToHex(light.r, light.g, light.b);
-                });
-                console.log('print2');
-                console.log($scope.lights);
-            })
-            .error(function (error) {
-                console.log(error);
-            });
+        // $http.get('/api/lights')
+        //     .success(function (data) {
+        //         console.log('print1');
+        //         console.log(data);
+        //         $scope.lights = data;
+        //         $scope.lights.map(function (light) {
+        //             console.log('estoy aqui');
+        //             light.hex = rgbToHex(light.r, light.g, light.b);
+        //         });
+        //         console.log('print2');
+        //         console.log($scope.lights);
+        //     })
+        //     .error(function (error) {
+        //         console.log(error);
+        //     });
 
         function componentToHex(c) {
             var hex = c.toString(16);
