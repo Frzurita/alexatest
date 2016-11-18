@@ -104,10 +104,12 @@ module.exports = function (app) {
         $scope.init();
 
         $scope.turnOn= function () {
+            document.getElementById("userOut").innerHTML = "Estado: smartplug encendido.";
             $scope.socket.buttons.SocketON.pressAndRelease();
         }
 
         $scope.turnOff= function () {
+            document.getElementById("userOut").innerHTML = "Estado: smartplug apagado.";
             $scope.socket.buttons.SocketOFF.pressAndRelease();
         };
 
@@ -124,6 +126,7 @@ module.exports = function (app) {
             $http.get('/api/smartplug/status')
                 .success(function (data) {
                     if(data.state == true){
+						alert("Ha llegado un evento de IFTTT");
                         if(data.light == true){
                             //lo que tengas que hacer para encender smartplug aqui
                             $scope.turnOn()
