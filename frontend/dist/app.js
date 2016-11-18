@@ -210,23 +210,33 @@ module.exports = function (app) {
 
         // var stopTime = $interval(setSmartplug, 1000);
         function setSmartplug() {
-            console.log('Im ready to send the request');
+            //console.log('Im ready to send the request');
             $http.get('/api/smartplug/status')
                 .success(function (data) {
                     if(data.state == true){
+						console.log("state is true");
+						alert("Ha llegado un evento de IFTTT");
                         if(data.light == true){
                             //lo que tengas que hacer para encender smartplug aqui
+							console.log("YayON!!");
                             $scope.turnOn()
                         }
                         else{
                             //lo que tengas que hacer para apagar smartplug aqui
+							console.log("YayOFF!!");
                             $scope.turnOff()
                         }
                     }
-                })
+					else{
+						console.log("state is false");
+					}
+				})
+				.error(function(data){
+					console.log("error");
+				})
         }
 
-        var interval = $interval(setSmartplug,1000);
+        var interval = $interval(setSmartplug,5000);
 
         $scope.contactWithGW = function () {
             $scope.pepe = {};
