@@ -13,8 +13,57 @@ var fs = require('fs');
  alexa.launch(function(request,response) {
 	console.log("launching alexa\n");
      response.say("Hello, welcome to the hell").shouldEndSession(false)
-         .reprompt('Pepe mama facking');
+         .reprompt('Please, say again?');
  });
+
+ alexa.intent('updateIntent',
+     {
+     },
+     function(request,response) {
+         console.log('Estoy en UPDATE INTENT');
+         response.say("Nothing. What do you want to have happened?");
+     }
+ );
+
+ alexa.intent('StatusIntent',
+     {
+     },
+     function(request,response) {
+        console.log('Estoy en status INTENT');
+		router.post('/', function(req, res, next) {
+			res.render('views/test.html');
+		});
+		response.say("Status status status status");
+     }
+ );
+
+ alexa.intent('LastVideosIntent',
+     {
+     },
+     function(request,response) {
+         console.log('Estoy en last videos INTENT');
+         response.say("last videos last videos last videos");
+     }
+ );
+
+ alexa.intent('LastEventsIntent',
+     {
+     },
+     function(request,response) {
+         console.log('Estoy en last events INTENT');
+         response.say("last events last events last events");
+     }
+ );
+
+ alexa.intent('DevicesStatusIntent',
+     {
+     },
+     function(request,response) {
+         console.log('Estoy en devices status INTENT');
+         response.say("devices devices devices");
+     }
+ );
+
 
  alexa.intent('MySensorIsIntent',
      {
@@ -26,7 +75,7 @@ var fs = require('fs');
      function(request,response) {
          console.log('Estoy en slot');
          var number = request.slot();
-         response.say("You asked for the number ");
+         response.say("hahahahahah weeeeeeeee");
      }
  );
 
@@ -162,49 +211,5 @@ router.get('/api/alexa', function (req, res, next) {
     res.json({msg: "I'm a get method"});
     //res.json(buildSpeechletResponse());
 });
-
-function buildSpeechletResponse() {
-    return {
-        outputSpeech: {
-            type: "PlainText",
-            text: "output"
-        },
-        card: {
-            type: "Simple",
-            title: "title",
-            content: "output"
-        },
-        reprompt: {
-            outputSpeech: {
-                type: "PlainText",
-                text: "repromptText"
-            }
-        },
-        shouldEndSession: false
-    };
-}
-
-/*
-function buildSpeechletResponse(title, output, repromptText, shouldEndSession) {
-    return {
-        outputSpeech: {
-            type: "PlainText",
-            text: output
-        },
-        card: {
-            type: "Simple",
-            title: title,
-            content: output
-        },
-        reprompt: {
-            outputSpeech: {
-                type: "PlainText",
-                text: repromptText
-            }
-        },
-        shouldEndSession: shouldEndSession
-    };
-}
-*/
 
 module.exports = router;
