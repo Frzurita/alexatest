@@ -18,7 +18,7 @@ body{
 
 <body>
 <div class="fullscreen" id="state">
-  <iframe src="https://localhost/tvOff" class="screen" width="100%" height="100%"></iframe>
+  <iframe src="https://becsmarthome.dnsdynamic.com/tvOff" class="screen" width="100%" height="100%"></iframe>
 </div>
 </body>
 <script type="text/javascript">
@@ -45,7 +45,7 @@ function makeRequest() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
       if (httpRequest.status === 200) {
 		if(httpRequest.responseText != "nothingChanged"){
-			var screen = '<iframe src="https://localhost/' + httpRequest.responseText + '" class="screen" width="100%" height="100%"></iframe>';
+			var screen = '<iframe src="https://becsmarthome.dnsdynamic.com/' + httpRequest.responseText + '" class="screen" width="100%" height="100%"></iframe>';
 			document.getElementById("state").innerHTML=screen;
 			console.log(httpRequest.responseText);
 		}

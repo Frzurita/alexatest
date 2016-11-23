@@ -160,7 +160,9 @@ router.post('/', function(req, res, next) {
 });
 
 router.get('/tvAlexa', function(req, res, next) {
-	state = "tvOff";
+    console.log("Apagando la TV");
+    state = "tvOff";
+    res.status(200);
     res.sendFile(path.join(__dirname+'/frontend/views/tv.html'));
 });
 
@@ -180,10 +182,12 @@ router.get('/updateState', function(req, res, next) {
 });
 
 router.get('/tvOff', function(req, res, next) {
+    res.status(200);
     res.sendFile(path.join(__dirname+'/frontend/views/tvOff.html'));
 });
 
 router.get('/tvTurningOn', function(req, res, next) {
+    res.status(200);
     res.sendFile(path.join(__dirname+'/frontend/views/tvTurningOn.html'));
 });
 
