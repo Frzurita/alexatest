@@ -10,13 +10,16 @@ var smartplugStatus = require('./smartplugStatus.json');
 var ifttt = require('./lib/ifttp');
 var fs = require('fs');
 
+var state = "tvOff";
+var prevState = "tvOff";
+
  alexa.launch(function(request,response) {
 	console.log("launching alexa\n");
      response.say("Hello, welcome to the hell").shouldEndSession(false)
          .reprompt('Please, say again?');
  });
 
- alexa.intent('updateIntent',
+ alexa.intent('UpdateIntent',
      {
      },
      function(request,response) {
@@ -30,10 +33,9 @@ var fs = require('fs');
      },
      function(request,response) {
         console.log('Estoy en status INTENT');
-		router.post('/', function(req, res, next) {
-			res.render('views/test.html');
-		});
-		response.say("Status status status status");
+		prevState=state;
+		state="tvTurningOn";
+		response.say("Ok. Now you can see the state of your home on you TV.");
      }
  );
 
@@ -75,7 +77,7 @@ var fs = require('fs');
      function(request,response) {
          console.log('Estoy en slot');
          var number = request.slot();
-         response.say("hahahahahah weeeeeeeee");
+         response.say("hahahahaha weeeeeeeee");
      }
  );
 
@@ -155,6 +157,34 @@ var fs = require('fs');
 
 router.post('/', function(req, res, next) {
     res.render('index.html');
+});
+
+router.get('/tvAlexa', function(req, res, next) {
+	state = "tvOff";
+    res.sendFile(path.join(__dirname+'/frontend/views/tv.html'));
+});
+
+router.get('/updateState', function(req, res, next) {
+	console.log("updateState");
+	console.log("prevState: " + prevState + " state: " + state);
+	if(state != prevState){
+		prevState=state;
+		console.log("updateState: turning On...");
+		res.status(200).send(state);
+		//res.sendFile(path.join(__dirname+'/frontend/views/' + state + '.html'));
+	}
+	else {
+		console.log("updateState: NOT turning ON...");
+		res.status(200).send("nothingChanged");
+	}
+});
+
+router.get('/tvOff', function(req, res, next) {
+    res.sendFile(path.join(__dirname+'/frontend/views/tvOff.html'));
+});
+
+router.get('/tvTurningOn', function(req, res, next) {
+    res.sendFile(path.join(__dirname+'/frontend/views/tvTurningOn.html'));
 });
 
 router.get('/api/lights', function (req, res, next) {
