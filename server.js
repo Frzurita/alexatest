@@ -13,7 +13,8 @@ var sslPath = '/etc/letsencrypt/live/becsmarthome.dnsdynamic.com/';
 
 var options = {  
     key: fs.readFileSync(sslPath + 'privkey.pem'),
-    cert: fs.readFileSync(sslPath + 'fullchain.pem')
+    cert: fs.readFileSync(sslPath + 'fullchain.pem'),
+    requestCert:true // Solves reliability issues. Thanks to: https://github.com/sushilks/alexaHarmonyApp/blob/master/server.js
 };
 
 
