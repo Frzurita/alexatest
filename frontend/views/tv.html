@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html>
+<head>
 <!-- From here: https://codepen.io/lbebber/pen/XJRdrV?css-preprocessor=none -->
 <style>
 body{
@@ -15,10 +18,13 @@ body{
     z-index: 10;
 }
 </style>
+<title> TV-Alexa demo </title>
+</head>
 
 <body>
 <div class="fullscreen" id="state">
-  <iframe src="https://becsmarthome.dnsdynamic.com/tvOff" class="screen" width="100%" height="100%"></iframe>
+ <!-- <iframe src="https://becsmarthome.dnsdynamic.com/tvOff" class="screen" width="100%" height="100%"></iframe> -->
+  <iframe src="https://becsmarthome.tk/tvOff" class="screen" width="100%" height="100%"></iframe> -->
 </div>
 </body>
 <script type="text/javascript">
@@ -45,7 +51,7 @@ function makeRequest() {
     if (httpRequest.readyState === XMLHttpRequest.DONE) {
       if (httpRequest.status === 200) {
 		if(httpRequest.responseText != "nothingChanged"){
-			var screen = '<iframe src="https://becsmarthome.dnsdynamic.com/' + httpRequest.responseText + '" class="screen" width="100%" height="100%"></iframe>';
+			var screen = '<iframe src="https://becsmarthome.tk/' + httpRequest.responseText + '" class="screen" width="100%" height="100%"></iframe>';
 			document.getElementById("state").innerHTML=screen;
 			console.log(httpRequest.responseText);
 		}

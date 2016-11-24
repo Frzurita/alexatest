@@ -9,7 +9,8 @@ var router = require('./app');
 //app.set('port', process.env.PORT || 8000);
 var port = process.env.PORT || 8000;
 
-var sslPath = '/etc/letsencrypt/live/becsmarthome.dnsdynamic.com/';
+//var sslPath = '/etc/letsencrypt/live/becsmarthome.dnsdynamic.com/';
+var sslPath = '/etc/letsencrypt/live/becsmarthome.tk/';
 
 var options = {  
     key: fs.readFileSync(sslPath + 'privkey.pem'),
