@@ -17,8 +17,8 @@ var prevState = "tvOff";
 
  alexa.launch(function(request,response) {
 	console.log("launching alexa\n");
-     response.say("Hello, welcome to Telefonica's assistance services.").shouldEndSession(false)
-         .reprompt('Please, say again?');
+	response.say("Hello, welcome to Telefonica's assistance services.").shouldEndSession(false)
+	.reprompt('Please, say again?');
  });
 
  alexa.intent('UpdateIntent',
@@ -26,8 +26,20 @@ var prevState = "tvOff";
      },
 	function(request,response) {
 		console.log('Estoy en UPDATE INTENT');
-        //response.say("Nothing. What do you want to have happened?");
-		response.say("Sorry, I didn't catch that.");
+		if(prevState!="tvOff"){
+			prevState=state;
+			state="tvLastEvents";
+		}
+		else{
+			prevState=state;
+			state="updateUser";
+		}
+        response.say("Your door has been opened twice from the time you went to work.");
+        response.say(". . There has been an accident in Cercanias trains and all trains are delayed twenty minutes.");
+        response.say(". . And your door sensor is running out of battery.");
+        response.say(". . You can seen this and more in your TV.");
+		response.say("Do you need anything else?");
+		response.shouldEndSession(false);
 	}
  );
 
@@ -38,8 +50,8 @@ var prevState = "tvOff";
         console.log('Estoy en status INTENT');
 		prevState=state;
 		state="tvTurningOn";
-		response.say("Ok. Now you can see the state of your home on you TV.");
-		response.say("Do you need anything else?");
+		response.say("Ok, now your TV is ON.");
+		response.say("What do you want to do next?");
 		response.shouldEndSession(false);
      }
  );
@@ -49,14 +61,8 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en status INTENT');
-		if(prevState=='tvOff'){
-			prevState=state;
-			state="tvTurningOn";
-		}
-		else{
-			prevState=state;
-			state="tvMainPage";
-		}
+		prevState=state;
+		state="tvMainPage";
 		response.say("Ok. Now you can see the state of your home on you TV.");
 		response.say("Do you need anything else?");
 		response.shouldEndSession(false);
@@ -84,6 +90,9 @@ var prevState = "tvOff";
 		prevState=state;
 		state="tvLastEvents";
         response.say("Here you have your last events.");
+        response.say("Your door has been opened twice from the time you went to work.");
+        response.say(". . There has been an accident in Cercanias trains and all trains are delayed twenty minutes.");
+        response.say(". . And your door sensor is running out of battery.");
 		response.say("Do you need anything else?");
 		response.shouldEndSession(false);
      }
@@ -97,7 +106,20 @@ var prevState = "tvOff";
 		prevState=state;
 		state="tvDevices";
         response.say("Here you can see the state of your devices.");
+        response.say("Your door sensor is running out of battery.");
 		response.say("Do you need anything else?");
+		response.shouldEndSession(false);
+     }
+ );
+
+ alexa.intent('PlayIntent',
+     {
+     },
+     function(request,response) {
+        console.log('Estoy en devices status INTENT');
+		prevState=state;
+		state="tvPlayVideo";
+        response.say("Playing your last video.");
 		response.shouldEndSession(false);
      }
  );
@@ -266,6 +288,18 @@ router.get('/tvMainPage', function(req, res, next) {
     res.sendFile(path.join(__dirname+'/frontend/views/tvMainPage.html'));
 });
 
+router.get('/updateUser', function(req, res, next) {
+	/* Shows the main page 
+	 */
+    res.status(200);
+    res.sendFile(path.join(__dirname+'/frontend/views/updateUser.html'));
+});
+
+router.get('/tvPlayVideo', function(req, res, next) {
+    res.status(200);
+    res.sendFile(path.join(__dirname+'/frontend/views/tvPlayVideo.html'));
+});
+
 router.get('/tvLastVideos', function(req, res, next) {
     res.status(200);
     res.sendFile(path.join(__dirname+'/frontend/views/tvLastVideos.html'));
@@ -273,7 +307,7 @@ router.get('/tvLastVideos', function(req, res, next) {
 
 router.get('/tvLastEvents', function(req, res, next) {
     res.status(200);
-    res.sendFile(path.join(__dirname+'/frontend/views/tvLastVideos.html'));
+    res.sendFile(path.join(__dirname+'/frontend/views/tvLastEvents.html'));
 });
 
 router.get('/tvDevices', function(req, res, next) {
