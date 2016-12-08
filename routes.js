@@ -36,13 +36,19 @@ var prevState = "tvOff";
 			prevState=state;
 			state="updateUser";
 		}
+	/*
         response.say("Your door has been opened twice from the time you went to work.");
         response.say(". . There has been an accident in the subway and all trains are delayed twenty minutes.");
         response.say(". . And your door sensor is running out of battery.");
         response.say(". . You can seen this and more in your TV.");
-		response.say("Do you need anything else?");
-		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
-		response.shouldEndSession(false);
+	response.say("Do you need anything else?");
+	*/
+	response.say("Yesterday while you weren't at home a new video was recorded.");
+	response.say(". . Today your door sensor is running out of battery and you should leave early because there has been an accident in the subway and all trains are delayed twenty minutes.");
+	response.say(". . You can seen this and more in your TV.");
+	response.say("Do you need anything else?");
+	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
+	response.shouldEndSession(false);
 	}
  );
 
@@ -68,8 +74,8 @@ var prevState = "tvOff";
 	prevState=state;
 	state="tvTurningOff";
 	response.say("Ok, I've turned off your TV.");
-        response.say("I hope I have helped you. Good bye!");
-	response.shouldEndSession(true);
+	response.say("Do you need anything else?");
+	response.shouldEndSession(false);
      }
  );
 
@@ -78,12 +84,12 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en status INTENT');
-		prevState=state;
-		state="tvMainPage";
-		response.say("Ok. Now you can see the state of your home on you TV.");
-		response.say("Do you need anything else?");
-		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
-		response.shouldEndSession(false);
+	prevState=state;
+	state="tvMainPage";
+	response.say("Ok. Now you can see the state of your home on you TV.");
+	response.say("Do you need anything else?");
+	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
+	response.shouldEndSession(false);
      }
  );
 
@@ -92,12 +98,12 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en last videos INTENT');
-		prevState=state;
-		state="tvLastVideos";
+	prevState=state;
+	state="tvLastVideos";
         response.say("Here you have your last videos.");
-		response.say("Do you need anything else?");
-		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
-		response.shouldEndSession(false);
+	response.say("Do you need anything else?");
+	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
+	response.shouldEndSession(false);
      }
  );
 
@@ -106,15 +112,15 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en last events INTENT');
-		prevState=state;
-		state="tvLastEvents";
+	prevState=state;
+	state="tvLastEvents";
         response.say("Here you have your last events.");
         response.say("Your door has been opened twice from the time you went to work.");
         response.say(". . There has been an accident in Cercanias trains and all trains are delayed twenty minutes.");
         response.say(". . And your door sensor is running out of battery.");
-		response.say("Do you need anything else?");
-		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
-		response.shouldEndSession(false);
+	response.say("Do you need anything else?");
+	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
+	response.shouldEndSession(false);
      }
  );
 
