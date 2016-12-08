@@ -17,8 +17,10 @@ var prevState = "tvOff";
 
  alexa.launch(function(request,response) {
 	console.log("launching alexa\n");
-	response.say("Hello, welcome to Telefonica's assistance services.").shouldEndSession(false)
-	.reprompt('Please, say again?');
+	response.say("Hello, welcome to Telefonica's assistance services.");
+	response.say("What can I do for you?");
+	response.shouldEndSession(false);
+	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
  });
 
  alexa.intent('UpdateIntent',
@@ -35,10 +37,11 @@ var prevState = "tvOff";
 			state="updateUser";
 		}
         response.say("Your door has been opened twice from the time you went to work.");
-        response.say(". . There has been an accident in Cercanias trains and all trains are delayed twenty minutes.");
+        response.say(". . There has been an accident in the subway and all trains are delayed twenty minutes.");
         response.say(". . And your door sensor is running out of battery.");
         response.say(". . You can seen this and more in your TV.");
 		response.say("Do you need anything else?");
+		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
 		response.shouldEndSession(false);
 	}
  );
@@ -52,7 +55,21 @@ var prevState = "tvOff";
 		state="tvTurningOn";
 		response.say("Ok, now your TV is ON.");
 		response.say("What do you want to do next?");
+		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
 		response.shouldEndSession(false);
+     }
+ );
+
+ alexa.intent('TurnOffTVIntent',
+     {
+     },
+     function(request,response) {
+        console.log('Estoy en status INTENT');
+	prevState=state;
+	state="tvTurningOff";
+	response.say("Ok, I've turned off your TV.");
+        response.say("I hope I have helped you. Good bye!");
+	response.shouldEndSession(true);
      }
  );
 
@@ -65,6 +82,7 @@ var prevState = "tvOff";
 		state="tvMainPage";
 		response.say("Ok. Now you can see the state of your home on you TV.");
 		response.say("Do you need anything else?");
+		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
 		response.shouldEndSession(false);
      }
  );
@@ -78,6 +96,7 @@ var prevState = "tvOff";
 		state="tvLastVideos";
         response.say("Here you have your last videos.");
 		response.say("Do you need anything else?");
+		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
 		response.shouldEndSession(false);
      }
  );
@@ -94,6 +113,7 @@ var prevState = "tvOff";
         response.say(". . There has been an accident in Cercanias trains and all trains are delayed twenty minutes.");
         response.say(". . And your door sensor is running out of battery.");
 		response.say("Do you need anything else?");
+		response.reprompt("Sorry, I didn't catch that. Could you repeat?");
 		response.shouldEndSession(false);
      }
  );
@@ -103,12 +123,13 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en devices status INTENT');
-		prevState=state;
-		state="tvDevices";
+	prevState=state;
+	state="tvDevices";
         response.say("Here you can see the state of your devices.");
         response.say("Your door sensor is running out of battery.");
-		response.say("Do you need anything else?");
-		response.shouldEndSession(false);
+	response.say("Do you need anything else?");
+	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
+	response.shouldEndSession(false);
      }
  );
 
@@ -117,10 +138,10 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en devices status INTENT');
-		prevState=state;
-		state="tvPlayVideo";
-        response.say("Playing your last video.");
-		response.shouldEndSession(false);
+	prevState=state;
+	state="tvPlayVideo";
+        response.say("Playing yesterday's video.");
+	response.shouldEndSession(true);
      }
  );
 
@@ -130,7 +151,7 @@ var prevState = "tvOff";
      function(request,response) {
         console.log('Estoy en devices status INTENT');
         response.say("I hope I have helped you. Bye!");
-		response.shouldEndSession(true);
+	response.shouldEndSession(true);
      }
  );
 
@@ -140,7 +161,7 @@ var prevState = "tvOff";
      function(request,response) {
         console.log('Estoy en devices status INTENT');
         response.say("Ok, what else can I do for you?");
-		response.shouldEndSession(false);
+	response.shouldEndSession(false);
      }
  );
 
@@ -243,6 +264,13 @@ var prevState = "tvOff";
      }
  );
 
+router.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+ });
+
+
 router.post('/', function(req, res, next) {
     res.render('index.html');
 });
@@ -270,6 +298,7 @@ router.get('/updateState', function(req, res, next) {
 });
 
 router.get('/tvOff', function(req, res, next) {
+    state = "tvOff";
     res.status(200);
     res.sendFile(path.join(__dirname+'/frontend/views/tvOff.html'));
 });
@@ -284,6 +313,7 @@ router.get('/tvTurningOn', function(req, res, next) {
 router.get('/tvMainPage', function(req, res, next) {
 	/* Shows the main page 
 	 */
+    state="tvMainPage";
     res.status(200);
     res.sendFile(path.join(__dirname+'/frontend/views/tvMainPage.html'));
 });
