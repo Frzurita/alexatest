@@ -44,7 +44,8 @@ var prevState = "tvOff";
 	response.say("Do you need anything else?");
 	*/
 	response.say("Yesterday while you weren't at home a new video was recorded.");
-	response.say(". . Today your door sensor is running out of battery and you should leave early because there has been an accident in the subway and all trains are delayed twenty minutes.");
+	//response.say(". . Today your door sensor is running out of battery and you should leave early because there has been an accident in the subway and all trains are delayed twenty minutes.");
+	response.say(". . Today your door sensor is running out of battery and you should leave early because there is higher traffic than usual due to an incident in the train network.");
 	response.say(". . You can seen this and more in your TV.");
 	response.say("Do you need anything else?");
 	response.reprompt("Sorry, I didn't catch that. Could you repeat?");
@@ -176,7 +177,7 @@ var prevState = "tvOff";
      },
      function(request,response) {
         console.log('Estoy en devices status INTENT');
-        response.say("I hope I have helped you. Bye!");
+        response.say("Ok. I hope I have have been of assistance. Good bye!");
 		response.shouldEndSession(true);
      }
  );
