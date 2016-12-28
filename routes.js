@@ -277,10 +277,76 @@ router.all('/', function(req, res, next) {
   next();
  });
 
-
 router.post('/', function(req, res, next) {
     res.render('index.html');
 });
+
+// Begin Geolocation code:
+
+var geolocationState = {'members':[]};
+var data, s, content;
+
+router.post('/geoUpdate', function(req, res, next){
+    console.log("Someone has entered a home.");
+    data = req.body;
+    s = JSON.stringify(data);
+    content = JSON.parse(s);
+    console.log(JSON.stringify(content.name) + " it is.");
+
+    var indx = 0;
+    var exists = false;
+    geolocationState.members.forEach(function(item){
+	if(!exists){
+            if(item.mac == content.mac){
+    		console.log("FOUND. indx: " + indx);
+	        exists=true;
+	    }        
+	    else{
+    		console.log("NOT found. indx: " + indx);
+	        indx++;
+	    }
+	}
+    });
+    if(exists){
+	prevGeoState = geolocationState.members
+	console.log("Esta!!!!");
+	if(geolocationState.members[indx].state != content.state){
+	    geolocationState.members[indx].time = getTime();
+	}
+	geolocationState.members[indx].image = content.image;
+	geolocationState.members[indx].name = content.name;
+	geolocationState.members[indx].telephone = content.telephone;
+	geolocationState.members[indx].state = content.state;
+	geolocationState.members[indx].wifimac = content.wifimac;
+    }
+    else{
+	console.log("NOOOO esta!!!!");
+	content["time"]=getTime();
+        geolocationState['members'].push(content);
+    }
+    console.log("geolocationState: " + JSON.stringify(geolocationState));
+    res.status(200);
+    res.send(geolocationState.members);
+});
+
+function addZero(i) {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
+function getTime() {
+    var d = new Date();
+    var x = "";
+    var h = addZero(d.getHours());
+    var m = addZero(d.getMinutes());
+    var s = addZero(d.getSeconds());
+    x = h + ":" + m + ":" + s;
+    return x;
+}
+
+//End Geolocation code.
 
 router.get('/tvAlexa', function(req, res, next) {
     console.log("Apagando la TV");
