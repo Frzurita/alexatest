@@ -310,8 +310,11 @@ router.post('/geoUpdate', function(req, res, next){
     if(exists){
 	prevGeoState = geolocationState.members
 	console.log("Esta!!!!");
+	var t = getTime();
 	if(geolocationState.members[indx].state != content.state){
-	    geolocationState.members[indx].time = getTime();
+	    moveArr(geolocationState.members[indx].time);
+	    geolocationState.members[indx].time[0] = t;
+	    //geolocationState.members[indx].time = getTime();
 	}
 	geolocationState.members[indx].image = content.image;
 	geolocationState.members[indx].name = content.name;
@@ -321,13 +324,21 @@ router.post('/geoUpdate', function(req, res, next){
     }
     else{
 	console.log("NOOOO esta!!!!");
-	content["time"]=getTime();
+	content["time"]= new Array(10);
         geolocationState['members'].push(content);
     }
     console.log("geolocationState: " + JSON.stringify(geolocationState));
     res.status(200);
     res.send(geolocationState.members);
 });
+
+function moveArr(arr){
+    var i;
+    for(i=arr.length-2; i>=0; i--){
+	arr[i+1]=arr[i];
+	console.log("item: " + arr[i]);
+    };
+}
 
 function addZero(i) {
     if (i < 10) {
@@ -339,10 +350,14 @@ function addZero(i) {
 function getTime() {
     var d = new Date();
     var x = "";
-    var h = addZero(d.getHours());
+    var Y = d.getFullYear();
+    var M = addZero(d.getMonth()+1);
+    var D = addZero(d.getDay()+1);
+    var H = addZero(d.getHours());
     var m = addZero(d.getMinutes());
-    var s = addZero(d.getSeconds());
-    x = h + ":" + m + ":" + s;
+    //var s = addZero(d.getSeconds());
+    //x = Y + "-" + M + "-" + D + " " + H + ":" + m + ":" + s;
+    x = Y + "-" + M + "-" + D + " " + H + ":" + m;
     return x;
 }
 
